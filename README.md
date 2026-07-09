@@ -1,68 +1,41 @@
-Employee Salary Filter - Azure Function
-This project contains an Azure Function App designed to filter employee records based on a specified salary threshold. The application is configured to run on the Python worker runtime.  
-PY
-+ 1
+# Employee Salary Filter API
 
-Prerequisites and Dependencies
-Python environment set up for Azure Functions.  
-JSON
+A serverless backend application built with Python and Azure Functions. This API reads employee data from a local Excel spreadsheet and returns a filtered list of employees whose salaries exceed a specified threshold.
 
-azure-functions library for function app capabilities.  
-TXT
+## Table of Contents
+* Features
+* Project Structure
+* Local Development Setup
+* API Documentation
+* Important Bug Fixes Needed
 
-pandas for data manipulation.  
-TXT
+---
 
-openpyxl engine to read Excel data.  
-TXT
+## Features
+* **Serverless Architecture:** Utilizes Azure Functions (v4 programming model) for easy scaling and deployment.
+* **Data Processing:** Uses pandas and openpyxl to efficiently parse and filter .xlsx files.
+* **RESTful Endpoint:** Provides a simple HTTP trigger to fetch filtered JSON data.
 
-An AzureWebJobsStorage configuration utilizing local development storage.  
-JSON
+---
 
-File Structure and Configuration
-function_app.py: Contains the main routing and logic for the HTTP trigger.  
-PY
+## Project Structure
 
-local.settings.json: Configures local development environment variables and runtime definitions.  
-JSON
+* `function_app.py`: The core application logic and HTTP route definition.
+* `local.settings.json`: Environment variables and local runtime configuration (ignored by version control).
+* `requirements.txt`: Python dependencies required to run the app.
+* `host.json`: Global configuration options for the Azure Functions host.
+* `employee_data.xlsx`: The source data file containing employee records.
 
-requirements.txt: Lists the required Python packages for deployment.  
-TXT
+---
 
-host.json: Specifies configuration settings for the Azure Functions host, including Application Insights sampling and the Extension Bundle version.  
-JSON
+## Local Development Setup
 
-employee_data.xlsx: The function reads data directly from this Excel file using the openpyxl engine.  
-PY
+Follow these steps to run the backend locally. 
 
-Note: The current code contains a hardcoded file path (C:\Users\pramathi.gupta\Desktop\EmployeeFunctionApp\employee_data.xlsx) that must be updated or mapped correctly on your local machine for the function to locate employee_data.xlsx.  
-PY
+**1. Install Prerequisites**
+Ensure you have Python 3.8 or newer installed on your system. You will also need the Azure Functions Core Tools installed locally to run the `func` commands.
 
-API Endpoint: GetEmployeesBySalary
-The application exposes a single HTTP endpoint configured with an anonymous authentication level.  
-PY
-
-Request
-Route: GetEmployeesBySalary.  
-PY
-
-Content-Type: Expected to be JSON, as the function parses the request body using req.get_json().  
-PY
-
-Body: A JSON object containing a max_salary key.  
-PY
-
-Responses
-Success (200 OK): Returns a JSON-formatted list of employee records (using the records orientation) where the salary is strictly greater than the provided max_salary.  
-PY
-
-Bad Request (400): Returned with the message "Please provide max_salary" if the parameter is missing.  
-PY
-
-Server Error (500): Returned with the error string if any exception occurs during processing.  
-PY
-
-Known Issues
-Code Defect Warning: There is a typographical error in the function_app.py script where the extracted variable from the JSON body is named man_salary (man_salary = req_body.get("max_salary")). However, the subsequent validation and dataframe filtering logic check against an undefined max_salary variable. This must be corrected to max_salary = req_body.get("max_salary") for the function to execute successfully.  
-PY
-+ 1
+**2. Clone the Repository**
+```bash
+git clone <your-repository-url>
+cd employee-salary-filter
